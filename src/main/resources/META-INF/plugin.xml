@@ -1,0 +1,37 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+  <id>com.dan-lee.css2js</id>
+  <name>CSS to JS</name>
+  <vendor email="hey@daniellehr.de">Daniel Lehr</vendor>
+
+  <depends>com.intellij.modules.platform</depends>
+  <depends>JavaScript</depends>
+
+  <actions>
+    <action class="com.danlee.css2js.ConvertToJsAction"
+            text="Convert from CSS → JS Object (CSS2JS)"
+            description="Convert raw CSS text to a JS object (css2js)">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+    </action>
+    <action class="com.danlee.css2js.ConvertToCssAction"
+            text="Convert from JS Object → CSS (JS2CSS)"
+            description="Convert JS object to CSS text (css2js)">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+    </action>
+    <action id="CSS2JS.Paste" class="com.danlee.css2js.PasteCssAsObjectAction"
+            text="Paste from CSS → JS Object (CSS2JS)"
+            description="Paste CSS text converted to JS object (css2js)">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+    </action>
+    <action class="com.danlee.css2js.PasteObjectAsCssAction"
+            text="Paste from JS Object → CSS (JS2CSS)"
+            description="Paste JS object as CSS text (css2js)">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+    </action>
+    <action class="com.danlee.css2js.PasteObjectAsInlineCssAction"
+            text="Paste JS Object to Inline CSS (JS2CSS)"
+            description="Paste JS object as CSS text (css2js)">
+      <add-to-group group-id="EditorPopupMenu" anchor="last" />
+    </action>
+  </actions>
+</idea-plugin>

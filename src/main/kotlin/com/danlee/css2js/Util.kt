@@ -4,7 +4,6 @@ import com.intellij.lang.javascript.TypeScriptFileType
 import com.intellij.lang.javascript.psi.JSLiteralExpression
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.JSProperty
-import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorModificationUtil
@@ -42,7 +41,7 @@ fun String.camelToKebabCase(): String {
 
 class Util {
   companion object {
-    fun getCssFile(project: Project, cssText: String): CssFile? {
+    private fun getCssFile(project: Project, cssText: String): CssFile? {
       val psiFileFactory = PsiFileFactory.getInstance(project)
 
       var css = cssText
@@ -83,23 +82,6 @@ class Util {
       return declarations
     }
 
-    fun old_extractDeclarations(cssFile: CssFile): List<Pair<String, String>> {
-      val stylesheet = cssFile.stylesheet
-      val (ruleset) = stylesheet.rulesets
-
-      val declarations = mutableListOf<Pair<String, String>>()
-
-      ruleset.block?.let { block ->
-        block.declarations.forEach { declaration ->
-          declaration.value?.text?.let { value ->
-            declarations.add(Pair(declaration.propertyName, value))
-          }
-        }
-      }
-
-      return declarations
-    }
-
     fun getCssPropertiesFromObject(project: Project, tsText: String): List<Pair<String, String>> {
       val psiFileFactory = PsiFileFactory.getInstance(project)
 
@@ -111,8 +93,6 @@ class Util {
 
       val objectLiteralExpression =
         PsiTreeUtil.findChildOfType(psiFile, JSObjectLiteralExpression::class.java)
-
-//      PsiTreeUtil.collectElements(psiFile) { true }.forEach { println(it) }
 
       return objectLiteralExpression?.children
         ?.filterIsInstance<JSProperty>()
@@ -156,7 +136,7 @@ class Util {
           val prop = if (prop.startsWith("--var")) surround(prop, "'") else prop.kebabToCamelCase()
 
           "$prop: ${quoteValue(value)}"
-        }
+        }.trim()
       } else {
         ""
       }
@@ -167,7 +147,7 @@ class Util {
       return if (cssProperties.isNotEmpty()) {
         cssProperties.joinToString(separator, postfix = ";") { (prop, value) ->
           "${prop.camelToKebabCase()}: $value"
-        }
+        }.trim()
       } else {
         ""
       }
@@ -181,14 +161,12 @@ class Util {
       editor.caretModel.moveToOffset(endOffset)
     }
 
-    fun replaceAtCaret(e: AnActionEvent, replace: (project: Project, text: String) -> String) {
-      val project = e.project ?: return
-      val editor = e.getRequiredData(com.intellij.openapi.actionSystem.CommonDataKeys.EDITOR)
+    fun replaceAtCaret(project: Project, editor: Editor, replace: (text: String) -> String) {
       val caretModel = editor.caretModel
 
       val clipboard = CopyPasteManager.getInstance().contents ?: return
       val clipboardText = clipboard.getTransferData(DataFlavor.stringFlavor) as String
-      val modifiedText = replace(project, clipboardText) ?: return
+      val modifiedText = replace(clipboardText)
 
       WriteCommandAction.runWriteCommandAction(project) {
         val startOffset = caretModel.offset

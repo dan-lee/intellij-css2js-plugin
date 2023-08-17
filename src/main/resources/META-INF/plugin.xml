@@ -1,6 +1,5 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-  <id>com.dan-lee.css2js</id>
+  <id>com.danlee.css2js</id>
   <name>CSS to JS</name>
   <vendor email="hey@daniellehr.de">Daniel Lehr</vendor>
 
@@ -8,30 +7,47 @@
   <depends>JavaScript</depends>
 
   <actions>
-    <action class="com.danlee.css2js.ConvertToJsAction"
-            text="Convert from CSS → JS Object (CSS2JS)"
-            description="Convert raw CSS text to a JS object (css2js)">
-      <add-to-group group-id="EditorPopupMenu" anchor="last" />
-    </action>
-    <action class="com.danlee.css2js.ConvertToCssAction"
-            text="Convert from JS Object → CSS (JS2CSS)"
-            description="Convert JS object to CSS text (css2js)">
-      <add-to-group group-id="EditorPopupMenu" anchor="last" />
-    </action>
-    <action id="CSS2JS.Paste" class="com.danlee.css2js.PasteCssAsObjectAction"
-            text="Paste from CSS → JS Object (CSS2JS)"
-            description="Paste CSS text converted to JS object (css2js)">
-      <add-to-group group-id="EditorPopupMenu" anchor="last" />
-    </action>
-    <action class="com.danlee.css2js.PasteObjectAsCssAction"
-            text="Paste from JS Object → CSS (JS2CSS)"
-            description="Paste JS object as CSS text (css2js)">
-      <add-to-group group-id="EditorPopupMenu" anchor="last" />
-    </action>
-    <action class="com.danlee.css2js.PasteObjectAsInlineCssAction"
-            text="Paste JS Object to Inline CSS (JS2CSS)"
-            description="Paste JS object as CSS text (css2js)">
-      <add-to-group group-id="EditorPopupMenu" anchor="last" />
-    </action>
+    <group id="css2js" text="CSS to JS"
+           description="Converts CSS to JS and vice-versa"
+           popup="true"
+           icon="/icons/icon.svg"
+    >
+      <add-to-group group-id="EditorPopupMenu" anchor="after"
+                    relative-to-action="RefactoringMenu" />
+      <action
+        id="com.danlee.css2js.ConvertToJsAction"
+        class="com.danlee.css2js.ConvertToJsAction"
+        text="Convert Selection to JS"
+        description="Convert raw CSS text to a JS object">
+      </action>
+
+      <action
+        id="com.danlee.css2js.ConvertToCssAction"
+        class="com.danlee.css2js.ConvertToCssAction"
+        text="Convert Selection to CSS"
+        description="Convert JS object to CSS text">
+      </action>
+
+      <action
+        id="com.danlee.css2js.PasteCssAsObjectAction"
+        class="com.danlee.css2js.PasteCssAsObjectAction"
+        text="Paste to JS"
+        description="Paste CSS text converted to JS object">
+      </action>
+
+      <action
+        id="com.danlee.css2js.PasteObjectAsCssAction"
+        class="com.danlee.css2js.PasteObjectAsCssAction"
+        text="Paste to CSS"
+        description="Paste JS object as CSS text">
+      </action>
+
+      <action
+        id="com.danlee.css2js.PasteObjectAsInlineCssAction"
+        class="com.danlee.css2js.PasteObjectAsInlineCssAction"
+        text="Paste to Inline CSS"
+        description="Paste JS object as CSS text">
+      </action>
+    </group>
   </actions>
 </idea-plugin>

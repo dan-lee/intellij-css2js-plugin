@@ -1,13 +1,19 @@
 # CSS to JS plugin for IntelliJ
 
 <!-- Plugin description -->
-**IntelliJ Platform Plugin Template** is a repository that provides a pure template to make it
-easier to create a new plugin project (check
-the [Creating a repository from a template][gh:template] article).
+The CSS to JS plugin simplifies the conversion between CSS and JavaScript objects and vice versa.
 
-The main goal of this template is to speed up the setup phase of plugin development for both new and
-experienced developers by preconfiguring the project scaffold and CI, linking to the proper
-documentation pages, and keeping everything organized.
+Features:
 
-[gh:template]: https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template
+- Easily convert CSS to JS objects and back.
+- Editor Selection: Convert directly in your editor by selecting the code.
+- Paste via Action: Paste the code and convert without manual effort.
+
+Usage:
+
+- Select or paste the CSS or JS code.
+- Use a right-click, shortcut, or action to initiate conversion.
+
+The CSS-JS Converter is a handy plugin for those who often switch between CSS and JS, aiming to make
+this process as smooth as possible.
 <!-- Plugin description end -->

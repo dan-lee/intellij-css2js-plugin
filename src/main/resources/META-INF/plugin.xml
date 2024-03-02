@@ -10,7 +10,7 @@
     <group id="css2js" text="CSS to JS"
            description="Converts CSS to JS and vice-versa"
            popup="true"
-           icon="/icons/icon.svg"
+           icon="Icons.Action"
     >
       <add-to-group group-id="EditorPopupMenu" anchor="after"
                     relative-to-action="RefactoringMenu" />

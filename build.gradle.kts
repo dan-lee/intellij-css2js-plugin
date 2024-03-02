@@ -28,7 +28,11 @@ dependencies {
 
 // Set the JVM language level used to build the project. Use Java 11 for 2020.3+, and Java 17 for 2022.2+.
 kotlin {
-  jvmToolchain(17)
+  @Suppress("UnstableApiUsage")
+  jvmToolchain {
+    languageVersion = JavaLanguageVersion.of(17)
+    vendor = JvmVendorSpec.JETBRAINS
+  }
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
@@ -113,9 +117,9 @@ tasks {
   }
 
   signPlugin {
-    certificateChain.set(environment("CERTIFICATE_CHAIN"))
-    privateKey.set(environment("PRIVATE_KEY"))
-    password.set(environment("PRIVATE_KEY_PASSWORD"))
+    certificateChain = environment("CERTIFICATE_CHAIN")
+    privateKey = environment("PRIVATE_KEY")
+    password = environment("PRIVATE_KEY_PASSWORD")
   }
 
   publishPlugin {
@@ -125,7 +129,8 @@ tasks {
     // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
     // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
     channels = properties("pluginVersion").map {
-      listOf(it.split('-').getOrElse(1) { "default" }.split('.').first())
+      listOf(
+        it.substringAfter('-').substringBefore('.').ifEmpty { "default" })
     }
   }
 }

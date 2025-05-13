@@ -4,3 +4,7 @@
 build
 cert
 .envrc
+.env
+.intellijPlatform
+.kotlin
+*.log

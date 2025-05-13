@@ -8,7 +8,7 @@ import com.intellij.openapi.command.WriteCommandAction
 class ConvertToJsAction : AnAction() {
   override fun actionPerformed(e: AnActionEvent) {
     val project = e.project
-    val editor = e.getRequiredData(CommonDataKeys.EDITOR)
+    val editor = e.getData(CommonDataKeys.EDITOR) ?: return
     val document = editor.document
 
     val selectionModel = editor.selectionModel

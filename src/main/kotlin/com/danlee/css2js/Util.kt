@@ -1,18 +1,17 @@
 package com.danlee.css2js
 
-import com.intellij.lang.javascript.TypeScriptFileType
 import com.intellij.lang.javascript.psi.JSLiteralExpression
 import com.intellij.lang.javascript.psi.JSObjectLiteralExpression
 import com.intellij.lang.javascript.psi.JSProperty
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.EditorModificationUtil
+import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.ide.CopyPasteManager
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.css.CssFile
-import com.intellij.psi.css.CssFileType
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.PsiUtilBase
 import java.awt.datatransfer.DataFlavor
@@ -59,7 +58,9 @@ class Util {
         css = "$css\n}"
       }
 
-      val psiFile = psiFileFactory.createFileFromText("tmp.css", CssFileType.INSTANCE, css)
+      val fileType =
+        FileTypeManager.getInstance().getFileTypeByExtension("css")
+      val psiFile = psiFileFactory.createFileFromText("tmp.css", fileType, css)
 
       return psiFile as? CssFile
     }
@@ -89,7 +90,9 @@ class Util {
       ts = ts.trimStart('{').trimEnd('}')
       ts = "const foo = {$ts}"
 
-      val psiFile = psiFileFactory.createFileFromText("tmp.ts", TypeScriptFileType.INSTANCE, ts)
+      val fileType =
+        FileTypeManager.getInstance().getFileTypeByExtension("ts")
+      val psiFile = psiFileFactory.createFileFromText("tmp.ts", fileType, ts)
 
       val objectLiteralExpression =
         PsiTreeUtil.findChildOfType(psiFile, JSObjectLiteralExpression::class.java)

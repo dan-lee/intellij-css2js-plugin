@@ -12,6 +12,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.css.CssFile
+import com.intellij.psi.css.CssRuleset
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.PsiUtilBase
 import java.awt.datatransfer.DataFlavor
@@ -67,8 +68,8 @@ class Util {
 
     fun extractDeclarations(project: Project, text: String): List<Pair<String, String>> {
       val cssFile = getCssFile(project, text) ?: return emptyList()
-      val stylesheet = cssFile.stylesheet
-      val (ruleset) = stylesheet.rulesets
+      val ruleset = PsiTreeUtil.findChildOfType(cssFile.stylesheet, CssRuleset::class.java)
+        ?: return emptyList()
 
       val declarations = mutableListOf<Pair<String, String>>()
 
